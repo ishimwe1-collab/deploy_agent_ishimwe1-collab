@@ -17,7 +17,7 @@ RESET="\e[0m"
 
 # --- Trap function for Ctrl+C ---
 cleanup() {
-    echo -e "\n${RED}⚠️ Script interrupted! Archiving current project...${RESET}"
+    echo -e "\n${RED} Script interrupted! Archiving current project...${RESET}"
     if [ -d "$DIR" ]; then
         tar -czf "${DIR}_archive.tar.gz" "$DIR"
         echo -e "${GREEN}📦 Project archived as ${DIR}_archive.tar.gz${RESET}"
@@ -76,20 +76,21 @@ configure_thresholds() {
         CONFIG_FILE="$DIR/Helpers/config.json"
 
         if [[ "$OSTYPE" == "darwin"* ]]; then
-            
-            sed -i ''-e "s/\"Warning\": *[0-9]\+/\"Warning\": $warning/" "$CONFIG_FILE"
-            sed -i ''-e "s/\"Failure\": *[0-9]\+/\"Failure\": $failure/" "$CONFIG_FILE"
+      
+            sed -i '' -e "s/\"warning\": *[0-9]\+/\"warning\": $warning/" "$CONFIG_FILE"
+            sed -i '' -e "s/\"failure\": *[0-9]\+/\"failure\": $failure/" "$CONFIG_FILE"
         else
             # Linux/WSL
-            sed -i "s/\"Warning\": *[0-9]\+/\"Warning\": $warning/" "$CONFIG_FILE"
-            sed -i "s/\"Failure\": *[0-9]\+/\"Failure\": $failure/" "$CONFIG_FILE"
+            sed -i "s/\"warning\": *[0-9]\+/\"warning\": $warning/" "$CONFIG_FILE"
+            sed -i "s/\"failure\": *[0-9]\+/\"failure\": $failure/" "$CONFIG_FILE"
         fi
 
-        echo -e "${GREEN}✅ config.json updated successfully! Warning=$warning%, Failure=$failure%${RESET}"
+        echo -e "${GREEN} config.json updated successfully! Warning=$warning%, Failure=$failure%${RESET}"
     else
-        echo -e "${CYAN}⚠️ Thresholds left unchanged.${RESET}"
+        echo -e "${CYAN} Thresholds left unchanged.${RESET}"
     fi
 }
+
 
 
 python_check() {
