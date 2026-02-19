@@ -62,19 +62,36 @@ copy_files() {
 
 configure_thresholds() {
     echo -e "${BOLD}${YELLOW}Stage 4: Configure Thresholds${RESET}"
+    
     read -p "Do you want to update attendance thresholds? (y/n): " update_choice
+    
     if [[ "$update_choice" == "y" || "$update_choice" == "Y" ]]; then
         read -p "Enter Warning threshold (default 75): " warning
         read -p "Enter Failure threshold (default 50): " failure
+        
+        # Set default values if empty
         warning=${warning:-75}
         failure=${failure:-50}
-        sed -i "s/\"Warning\": [0-9]\+/\"Warning\": $warning/" "$DIR/Helpers/config.json"
-        sed -i "s/\"Failure\": [0-9]\+/\"Failure\": $failure/" "$DIR/Helpers/config.json"
-        echo -e "${GREEN}config.json updated successfully! Warning=$warning%, Failure=$failure%${RESET}"
+        
+        CONFIG_FILE="$DIR/Helpers/config.json"
+
+        # Cross-platform sed: works on Linux and macOS
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            # macOS: need empty string for -i
+            sed -i '' "s/\"Warning\": *[0-9]\+/\"Warning\": $warning/" "$CONFIG_FILE"
+            sed -i '' "s/\"Failure\": *[0-9]\+/\"Failure\": $failure/" "$CONFIG_FILE"
+        else
+            # Linux/WSL
+            sed -i "s/\"Warning\": *[0-9]\+/\"Warning\": $warning/" "$CONFIG_FILE"
+            sed -i "s/\"Failure\": *[0-9]\+/\"Failure\": $failure/" "$CONFIG_FILE"
+        fi
+
+        echo -e "${GREEN}✅ config.json updated successfully! Warning=$warning%, Failure=$failure%${RESET}"
     else
-        echo -e "${CYAN}Thresholds left unchanged.${RESET}"
+        echo -e "${CYAN}⚠️ Thresholds left unchanged.${RESET}"
     fi
 }
+
 
 python_check() {
     echo -e "${BOLD}${CYAN}Stage 5: Python Environment Check${RESET}"
