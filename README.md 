@@ -1,0 +1,141 @@
+Attendance Tracker Project Setup
+Project Overview
+
+This project provides an automated setup script for the Attendance Tracker application. 
+The setup_project.sh script builds the project workspace, copies all necessary files, allows configuration of attendance thresholds, checks the Python environment, and handles interruptions gracefully.
+
+The script ensures reproducibility, efficiency, and reliability in setting up your development environment.
+
+Directory Structure Created
+
+When the script runs, it creates a directory named:
+
+attendance_tracker_<your_suffix>
+
+Inside this folder, the structure is:
+attendance_checker.py
+Helpers/
+    assets.csv
+    config.json
+reports/
+    reports.log
+
+Menu Options
+
+When you run ./setup_project.sh, a menu is displayed to guide you through setup stages.
+
+1) Create Main Directory
+
+Prompts you for a suffix and creates the project folder:
+
+attendance_tracker_<suffix>
+
+
+This is the root of your project.
+
+2) Create Internal Structure
+
+Creates the necessary subdirectories:
+
+Helpers/ → contains configuration and asset files
+
+reports/ → stores log files
+
+3) Copy Project Files
+
+Copies all required files into the project directories:
+
+attendance_checker.py → main Python logic
+
+assets.csv → stored in Helpers/
+
+config.json → stored in Helpers/
+
+reports.log → stored in reports/
+
+4) Configure Thresholds
+
+Allows you to update attendance thresholds in config.json:
+
+Warning threshold (default 75%)
+
+Failure threshold (default 50%)
+
+Press Enter to keep default values. Changes are automatically updated in config.json.
+
+5) Python Environment Check
+
+Checks if python3 is installed on your system.
+
+If installed, displays the Python version
+
+If not installed, warns you to install Python before running the project
+
+6) Run Full Setup
+
+Performs all steps automatically:
+
+Creates the main directory
+
+Creates internal structure
+
+Copies all project files
+
+Configures thresholds (interactive)
+
+Checks Python environment
+
+This is the recommended option for a complete and ready-to-use setup.
+
+0) Exit
+
+Exits the setup script without making any changes.
+
+Ctrl+C Handling
+
+The script is designed to handle interruptions gracefully:
+
+If you press Ctrl+C at any point during setup, the script will:
+
+Archive the current state of the project folder as:
+
+attendance_tracker_<suffix>_archive.tar.gz
+
+
+Delete the incomplete project folder to keep your workspace clean
+
+You can later restore the archived folder using:
+
+tar -xzf attendance_tracker_<suffix>_archive.tar.gz
+
+Notes
+
+All changes to config.json are done in-place using the script.
+
+Default thresholds are preserved if you skip the update step.
+
+The script uses colors to differentiate stages, success messages, warnings, and errors for clarity.
+
+Example Usage
+
+Run the script:
+
+./setup_project.sh
+
+
+Example interaction:
+
+===== Attendance Project Setup Menu =====
+1) Create main directory
+2) Create internal structure
+3) Copy project files
+4) Configure thresholds
+5) Python environment check
+6) Run full setup
+0) Exit
+Select an option [0-6]:
+
+
+Choose option 6 for full setup
+
+Optionally, go step-by-step for more control
