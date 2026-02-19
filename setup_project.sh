@@ -1,3 +1,4 @@
+
 #!/usr/bin/env bash
 
 # =========================
@@ -69,17 +70,15 @@ configure_thresholds() {
         read -p "Enter Warning threshold (default 75): " warning
         read -p "Enter Failure threshold (default 50): " failure
         
-        # Set default values if empty
         warning=${warning:-75}
         failure=${failure:-50}
         
         CONFIG_FILE="$DIR/Helpers/config.json"
 
-        # Cross-platform sed: works on Linux and macOS
         if [[ "$OSTYPE" == "darwin"* ]]; then
-            # macOS: need empty string for -i
-            sed -i '' "s/\"Warning\": *[0-9]\+/\"Warning\": $warning/" "$CONFIG_FILE"
-            sed -i '' "s/\"Failure\": *[0-9]\+/\"Failure\": $failure/" "$CONFIG_FILE"
+            
+            sed -i ''-e "s/\"Warning\": *[0-9]\+/\"Warning\": $warning/" "$CONFIG_FILE"
+            sed -i ''-e "s/\"Failure\": *[0-9]\+/\"Failure\": $failure/" "$CONFIG_FILE"
         else
             # Linux/WSL
             sed -i "s/\"Warning\": *[0-9]\+/\"Warning\": $warning/" "$CONFIG_FILE"
